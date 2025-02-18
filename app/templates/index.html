@@ -25,7 +25,7 @@
         flex-direction: column;
         /* height: 70vh; */
         width: 100%;
-        margin-top: 150px;
+        margin-top: 130px;
       }
       .navbar {
         width: 100%;
@@ -101,6 +101,7 @@
       }
       input[type="submit"] {
         width: 100%;
+        height: 50px;
         padding: 10px;
         background-color: #fdb61b;
         border: none;
@@ -131,6 +132,71 @@
         cursor: pointer;
         margin: 8px 0 28px 0;
       }
+
+
+      /*  */
+     .radio-container {
+      display: inline-block;
+      margin-right: 10px;
+      position: relative; /* For positioning the pseudo-element */
+    }
+
+    .radio-input {
+      opacity: 0; /* Hide the default radio button */
+      position: absolute; /* So it doesn't take up space */
+      cursor: pointer; /* Make the whole box clickable */
+      width: 100%;
+      height: 100%;
+      display: none;
+      overflow: hidden;
+    }
+
+    .radio-label {
+      display: block; /* Important: Make the label a block element */
+      width: 170px;
+      height: 60px;
+      border: 2px solid #f1f1f1;
+      background-color: #fff;
+      border-radius: 5px;
+      box-sizing: border-box;
+      cursor: pointer;
+      text-align: center; /* Center the text horizontally */
+      line-height: 50px; /* Center the text vertically */
+      user-select: none;
+    }
+
+    .radio-input:checked + .radio-label {
+      background-color: #ffffff;
+      color: black;
+      border-color: #fdb61b;
+    }
+
+    /* Optional: Style the "dot" inside the checked radio button (if you want one) */
+    .radio-label::after { /* Use ::after on the label */
+      content: "";
+      display: block;
+      width: 10px;
+      height: 10px;
+      margin: auto;
+      margin-top: calc(50% - 5px); /* Vertically center the dot */
+      border-radius: 50%;
+      background-color: white;
+      opacity: 0;
+      transition: opacity 0.2s;
+      position: absolute; /* Needed for positioning */
+      top: 0;
+      left: 0;
+      right: 0; /* Center horizontally */
+    }
+
+    .radio-input:checked + .radio-label::after {
+      opacity: 1;
+    }
+
+    .radio-label span {
+      font-size: 18px;
+    }
+      /*  */
     </style>
   </head>
   <body>
@@ -162,26 +228,28 @@
 
           <label>Print Type:</label>
           <div class="radio-group">
-            <div>
+            <div class="radio-container">
               <input
                 style="display: inline-block;"
                 type="radio"
                 id="single-sided"
                 name="printType"
                 value="single-sided"
+                class="radio-input"
                 required
               />
-              <label style="display: inline-block;" for="single-sided">Single-sided</label>
+              <label class="radio-label" style="display: inline-block;" for="single-sided"><span>Single-sided</span></label>
             </div>
-            <div>
+            <div class="radio-container">
               <input
                 type="radio"
                 id="double-sided"
                 name="printType"
                 value="double-sided"
+                class="radio-input"
                 required
               />
-              <label for="double-sided">Double-sided</label>
+              <label class="radio-label" for="double-sided"><span>Double-sided</span></label>
             </div>
           </div>
           <input type="submit" value="NEXT" />
