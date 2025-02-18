@@ -4,45 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Print Request Form</title>
+    <link rel="shortcut icon" href="{{url_for('static', filename='images/logo.png')}}" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
       body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
+        font-family: 'Roboto', sans-serif;
+        /* background-color: #f4f4f4; */
+        background-color: #fcfcfc;
+
         margin: 0;
         padding: 0;
+        overflow: hidden;
+      }
+      .wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
         flex-direction: column;
+        /* height: 70vh; */
+        width: 100%;
+        margin-top: 150px;
       }
       .navbar {
         width: 100%;
-        background-color: #007bff;
-        padding: 10px;
+        background-color: white;
+        padding: 20px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
       }
+
+      .navbar img {
+        height: 80px;
+      }
+
+      .logout-btn {
+        padding: 10px 20px;
+        margin-right: 2rem;
+        border-radius: 4px;
+        background-color: #fdb61b;
+      }
+
       .navbar a {
         color: #fff;
         text-decoration: none;
-        padding: 10px 20px;
-        border-radius: 4px;
-        background-color: #0056b3;
-      }
-      .navbar a:hover {
-        background-color: #003f7f;
       }
       .container {
         background-color: #fff;
-        padding: 20px;
+        padding: 32px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         max-width: 400px;
         width: 100%;
       }
       h1 {
-        text-align: center;
+        font-size: 36px;
+        /* text-align: center; */
+        font-weight: 300;
         color: #333;
       }
       label {
@@ -51,16 +71,28 @@
         color: #555;
       }
 
-      input[type="file"],
       select {
         width: 100%;
         padding: 10px;
         margin-bottom: 20px;
-        border: 1px solid #ccc;
+        border: none;
         border-radius: 4px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+        font-weight: 300;
       }
+
+      select option {
+      font-size: 18px;
+      color: #333;
+      background-color: #fff;
+      cursor: pointer;
+
+      }
+
       input[type="radio"] {
         margin-right: 10px;
+        cursor: pointer;
       }
       .radio-group {
         display: flex;
@@ -70,7 +102,7 @@
       input[type="submit"] {
         width: 100%;
         padding: 10px;
-        background-color: #007bff;
+        background-color: #fdb61b;
         border: none;
         border-radius: 4px;
         color: #fff;
@@ -78,58 +110,84 @@
         cursor: pointer;
       }
       input[type="submit"]:hover {
-        background-color: #0056b3;
+        background-color: #fdb61b;
+      }
+      label {
+        display: block;
+        font-size: 20px;
+        font-weight: 300;
+        /* padding-left: 22px; */
+        width: 100%;
+        text-align: left;
+        cursor: pointer;
+
+      }
+      input[type="file"]::file-selector-button {
+        background-color: #f1f1f1;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 8px 0 28px 0;
       }
     </style>
   </head>
   <body>
     <div class="navbar">
-      <a href="/logout">Logout</a>
+      <img src="{{url_for('static', filename='images/logo-1.png')}}" alt="FLAME University">
+      <div class="logout-btn">
+        <a href="/logout">Logout</a>
+      </div>
     </div>
-    <div class="container">
-      <h1>Print Request Form</h1>
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <label for="file">Upload PDF:</label>
-        <input
-          type="file"
-          id="file"
-          name="file"
-          accept="application/pdf"
-          required
-        />
+    <div class="wrapper">
 
-        <label for="color">Color Type:</label>
-        <select id="color" name="color" required>
-          <option value="black-and-white">Black and White</option>
-          <option value="color">Color</option>
-        </select>
+      <div class="container">
+        <h1>Print Request Form</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <label for="file">Upload PDF:</label>
+          <input
+            type="file"
+            id="file"
+            name="file"
+            accept="application/pdf"
+            required
+          />
 
-        <label>Print Type:</label>
-        <div class="radio-group">
-          <div>
-            <input
-              type="radio"
-              id="single-sided"
-              name="printType"
-              value="single-sided"
-              required
-            />
-            <label for="single-sided">Single-sided</label>
+          <label for="color">Color Type:</label>
+          <select id="color" name="color" required>
+            <option value="black-and-white">Black and White</option>
+            <option value="color">Color</option>
+          </select>
+
+          <label>Print Type:</label>
+          <div class="radio-group">
+            <div>
+              <input
+                style="display: inline-block;"
+                type="radio"
+                id="single-sided"
+                name="printType"
+                value="single-sided"
+                required
+              />
+              <label style="display: inline-block;" for="single-sided">Single-sided</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="double-sided"
+                name="printType"
+                value="double-sided"
+                required
+              />
+              <label for="double-sided">Double-sided</label>
+            </div>
           </div>
-          <div>
-            <input
-              type="radio"
-              id="double-sided"
-              name="printType"
-              value="double-sided"
-              required
-            />
-            <label for="double-sided">Double-sided</label>
-          </div>
-        </div>
-
-        <input type="submit" value="Submit" />
-      </form>
+          <input type="submit" value="NEXT" />
+        </form>
+      </div>
     </div>
+
   </body>
 </html>
