@@ -4,6 +4,11 @@ This project automates the reprographics (printing) process using a web applicat
 
 ## Demo 
 
+### Demo Video
+To better understand how the system works, watch the demo video below:
+
+Link: https://drive.google.com/file/d/1LU1_ihK3KvxIj1UzAfuPLG3Ozp_OBxKv/view?usp=sharing
+
 ### Login Page
 ![Login](app/static/demo/login.png)
 ### PDF Upload Page
@@ -81,11 +86,6 @@ Before implementing this system, the reprographics process was manual, leading t
 - **Upload documents** and submit print jobs.
 - **Verify payments** using transaction screenshots.
 - **Admins approve** jobs from the queue and send them for printing.
-
-## Demo Video
-To better understand how the system works, watch the demo video below:
-
-Link: https://drive.google.com/file/d/1LU1_ihK3KvxIj1UzAfuPLG3Ozp_OBxKv/view?usp=sharing
 
 ## Contributing
 Feel free to fork the repository and submit pull requests.
