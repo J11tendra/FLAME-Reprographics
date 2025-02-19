@@ -2,6 +2,19 @@
 
 This project automates the reprographics (printing) process using a web application built with Flask, MongoDB, and Google SSO. It allows users to submit print jobs, verify payments, and manage a print queue efficiently.
 
+## Demo 
+
+### Login Page
+![Login](app/static/demo/login.png)
+### PDF Upload Page
+![PDF Upload](app/static/demo/print-1.png)
+### Payment Page
+![Payment](app/static/demo/payment.png)
+### Summary Page
+![Summary](app/static/demo/summary.png)
+### Admin Dashboard Page
+![Admin Dashboard](app/static/demo/dashboard.png)
+
 ## Features
 - **User Authentication**: Google SSO for secure login.
 - **Print Job Submission**: Users can upload documents with details like the number of copies, black & white/color, and duplex printing.
@@ -33,7 +46,7 @@ Before implementing this system, the reprographics process was manual, leading t
 ### Steps
 1. **Clone the Repository**
    ```sh
-   git clone https://github.com/your-username/reprographics.git
+   git clone https://github.com/J11tendra/FLAME-Reprographics.git
    cd reprographics
    ```
 
