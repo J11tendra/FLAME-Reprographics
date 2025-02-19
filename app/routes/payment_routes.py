@@ -11,11 +11,6 @@ from flask import (
 from app.utils.verify_payment_ss import verify_payment
 from bson.objectid import ObjectId
 
-
-# from pymongo import MongoClient
-
-# import gridfs
-
 payment_bp = Blueprint("payment", __name__)
 
 
@@ -31,10 +26,8 @@ def summary():
     db = current_app.config["DB"]
 
     payment_ss = request.files["file"]
-    # print("screenshot:" + payment_ss.filename)
     utr_id = verify_payment(payment_ss)
     transaction_collection = db.transactions
-    # transaction_collection.insert_one({"utr_id": utr_id})
     if not utr_id:
         additional_data = {"utr_id": utr_id, "status":"unverified"}
     else:

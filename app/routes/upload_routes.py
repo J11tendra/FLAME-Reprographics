@@ -9,7 +9,6 @@ from flask import (
     url_for,
 )
 import fitz
-# import pymupdf
 from app.utils import calculate_cost, generate_qr_code
 from bson.objectid import ObjectId
 
@@ -18,7 +17,6 @@ upload_bp = Blueprint("upload", __name__)
 
 @upload_bp.route("/upload", methods=["POST"])
 def upload_file():
-    # from app import db, fs
     if session.get("locked"):
         return redirect(url_for("home"))
 
@@ -62,10 +60,6 @@ def upload_file():
         else:
             transaction_collection.insert_one(transaction_data)
             session["user"]["transaction_id"] = str(transaction_data["_id"])
-
-            # db.transactions.insert_one(transaction_data)
-
-            # session["user"]["transaction_id"] = str(transaction_data["_id"])
 
             # Generate the QR code
             transaction_id = str(

@@ -110,7 +110,6 @@
             <span class="transaction-id"
               >Transaction ID: {{ transaction.utr_id }}</span
             >
-            <!-- <span class="transaction-status">{{ transaction.numPages }}</span> -->
             <span class="transaction-status">{{ transaction.status }}</span>
           </li>
           {% endfor %}
@@ -148,9 +147,8 @@
           });
       }
 
-      setInterval(fetchData, 6000); // 10000ms = 10 seconds
+      setInterval(fetchData, 6000);
 
-      // Fetch data once when the page loads
       fetchData();
     </script>
   </body>

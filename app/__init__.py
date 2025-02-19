@@ -5,14 +5,9 @@ import json
 import os
 from dotenv import load_dotenv
 
-# from pymongo import MongoClient
-# import gridfs
+
 import fitz
 from app.database import init_db
-
-# from app.utils.calculate_cost import calculate_cost
-# from app.utils.generate_qr_code import generate_qr_code
-# from app.utils.verify_payment_ss import verify_payment
 
 from app.routes import auth_bp, upload_bp, payment_bp, dashboard_bp
 
@@ -25,7 +20,6 @@ oauth = OAuth()
 # Flask app configuration
 def create_app():
 
-    # load_dotenv()
     app = Flask(__name__)
     app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
@@ -33,18 +27,9 @@ def create_app():
     app.config["SESSION_TYPE"] = "filesystem"
     Session(app)
 
-    # with app.app_context():
-    #     init_db()
-    # # init_db()
-
     oauth.init_app(app)
-    # MongoDB setup
-    # client = MongoClient(os.getenv("MONGODB_URI"))
-    # db = client["flame-reprographics"]  # Use the database name from the URI
-    # fs = gridfs.GridFS(db)
 
     # OAuth setup
-    # oauth = OAuth(app)
     google = oauth.register(
         name="google",
         client_id=os.getenv("GOOGLE_CLIENT_ID"),
@@ -59,7 +44,6 @@ def create_app():
         },
     )
 
-    # from app.routes import auth_routes, upload_routes, payment_routes
     app.config["google"] = google
     init_db(app)
     app.register_blueprint(auth_bp)
