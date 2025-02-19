@@ -1,3 +1,5 @@
 .env
+environment.yml
 flask_session
 __pycache__
+repro_env

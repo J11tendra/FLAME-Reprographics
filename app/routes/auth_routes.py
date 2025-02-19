@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, session, Blueprint, current_app
+from flask import Flask, redirect, url_for, session, Blueprint, current_app, request
 
 from authlib.integrations.flask_client import OAuth
 from flask_session import Session
@@ -17,6 +17,8 @@ def login():
     google = current_app.config["google"]
 
     # session["oauth_state"] = os.urandom(24).hex()  /# Ensure state is stored
+    # redirect_uri = request.host_url + "callback"
+    # return google.authorize_redirect(redirect_uri)
     return google.authorize_redirect("http://localhost:5000/callback")
 
 

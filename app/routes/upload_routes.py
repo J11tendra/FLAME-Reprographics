@@ -9,6 +9,7 @@ from flask import (
     url_for,
 )
 import fitz
+# import pymupdf
 from app.utils import calculate_cost, generate_qr_code
 from bson.objectid import ObjectId
 

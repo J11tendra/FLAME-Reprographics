@@ -19,7 +19,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px;
-        background-color: #4caf50;
+        background-color: #fdb61b;
         color: white;
         border-radius: 5px;
       }
@@ -56,10 +56,43 @@
       .transaction-id {
         color: #333;
       }
+       .navbar {
+        width: 100%;
+        background-color: white;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      h1 {
+        font-size: 32px;
+        font-weight: 300;
+      }
+      .navbar img {
+        height: 80px;
+      }
+
+      .logout-btn {
+        padding: 10px 20px;
+        margin-right: 2rem;
+        border-radius: 4px;
+        background-color: #fdb61b;
+      }
+
+      .navbar a {
+        color: #fff;
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
-    <div class="container">
+      <div class="navbar">
+        <img src="{{url_for('static', filename='images/logo-1.png')}}" alt="FLAME University">
+        <div class="logout-btn">
+          <a href="/logout">Logout</a>
+        </div>
+      </div>
+      <div class="container">
       <div class="header">
         <h1>Dashboard</h1>
         <a
@@ -75,8 +108,9 @@
           {% for transaction in transactions %}
           <li>
             <span class="transaction-id"
-              >Transaction ID: {{ transaction._id }}</span
+              >Transaction ID: {{ transaction.utr_id }}</span
             >
+            <!-- <span class="transaction-status">{{ transaction.numPages }}</span> -->
             <span class="transaction-status">{{ transaction.status }}</span>
           </li>
           {% endfor %}
@@ -100,7 +134,7 @@
               transactions.forEach((transaction) => {
                 let li = document.createElement("li");
                 li.innerHTML = `
-                        <span class="transaction-id">Transaction ID: ${transaction._id}</span>
+                        <span class="transaction-id">Transaction ID: ${transaction.utr_id}</span>
                         <span class="transaction-status">${transaction.status}</span>
                     `;
                 transactionList.appendChild(li);

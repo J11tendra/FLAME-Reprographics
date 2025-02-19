@@ -36,7 +36,7 @@ def summary():
     transaction_collection = db.transactions
     # transaction_collection.insert_one({"utr_id": utr_id})
     if not utr_id:
-        additional_data = {"utr_id": utr_id}
+        additional_data = {"utr_id": utr_id, "status":"unverified"}
     else:
         additional_data = {"utr_id": utr_id, "status": "completed"}
 

@@ -48,3 +48,4 @@ def polling():
     except Exception as e:
         current_app.logger.error(f"Error fetching polling data: {e}")
         return jsonify({"error": "An error occurred while fetching data."}), 500
+
