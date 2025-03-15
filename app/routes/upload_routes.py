@@ -45,30 +45,36 @@ def upload_file():
             "color": color,
             "numPages": num_pages,
             "totalCost": total_cost,
-            "status": "progress",
+            "status": "pending",
         }
 
         transaction_collection = db.transactions
+        transaction_id = session["user"]["transaction_id"]
 
         if "transaction_id" in session["user"]:
-            transaction_id = session["user"]["transaction_id"]
             transaction_collection.update_one(
                 {"_id": ObjectId(transaction_id)},
                 {"$set": transaction_data},
             )
 
         else:
-            transaction_collection.insert_one(transaction_data)
-            session["user"]["transaction_id"] = str(transaction_data["_id"])
+            update_query = {"_id": ObjectId(transaction_id)}
+            update_data = {"$set": transaction_data}
+            transaction_collection.find_one_and_update(
+                update_query, update_data, return_document=True
+            )
+            # transaction_collection.insert_one(transaction_data)
+            # session["user"]["transaction_id"] = str(transaction_data["_id"])
 
             # Generate the QR code
             transaction_id = str(
                 transaction_data["_id"]
             )  # Use the MongoDB transaction ID as the unique transaction ID
         qr_img_io = generate_qr_code(total_cost, transaction_id)
+        print(session["user"])
 
         return render_template(
             "payment.html", total_cost=total_cost, qr_code_img=qr_img_io
         )
-
+        
     return "No file uploaded", 400

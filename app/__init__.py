@@ -4,6 +4,7 @@ from authlib.integrations.flask_client import OAuth
 import json
 import os
 from dotenv import load_dotenv
+# from datetime import timedelta
 
 
 import fitz
@@ -23,8 +24,9 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
-    # Flask-Session configuration (stores session in memory)
     app.config["SESSION_TYPE"] = "filesystem"
+    # app.config["SESSION_PERMANENT"] = True
+    # app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=1)
     Session(app)
 
     oauth.init_app(app)

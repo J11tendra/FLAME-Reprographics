@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -110,6 +110,12 @@
             <span class="transaction-id"
               >Transaction ID: {{ transaction.utr_id }}</span
             >
+            <span class="transaction-id"
+              >File Name: {{ transaction.filename }}</span
+            >
+            <span class="transaction-id"
+              >Transaction ID: {{ transaction.utr_id }}</span
+            >
             <span class="transaction-status">{{ transaction.status }}</span>
           </li>
           {% endfor %}
@@ -149,6 +155,153 @@
 
       setInterval(fetchData, 6000);
 
+      fetchData();
+    </script>
+  </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="{{url_for('static', filename='images/logo.png')}}" type="image/x-icon">
+    <title>Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f9;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background-color: #fdb61b;
+        color: white;
+        border-radius: 5px;
+      }
+      .header h1 {
+        margin: 0;
+      }
+      .transactions {
+        margin-top: 20px;
+        background-color: white;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #fdb61b;
+        color: white;
+      }
+      .print-btn {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+      .navbar {
+        width: 100%;
+        background-color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .navbar img {
+        height: 80px;
+      }
+      .logout-btn {
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: #fdb61b;
+      }
+      .logout-btn a {
+        color: white;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <img src="{{url_for('static', filename='images/logo-1.png')}}" alt="FLAME University">
+      <div class="logout-btn">
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="header">
+        <h1>Dashboard</h1>
+      </div>
+
+      <div class="transactions">
+        <h2>Completed Transactions</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>No. of Pages</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="transaction-list">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      function fetchData() {
+        fetch("/polling")
+          .then((response) => response.json())
+          .then((data) => {
+            const transactionList = document.getElementById("transaction-list");
+            transactionList.innerHTML = "";
+
+            const transactions = JSON.parse(data.transactions);
+
+            transactions.forEach((transaction) => {
+              let row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${transaction.name}</td>
+                <td>${transaction.email}</td>
+                <td>${transaction.numPages}</td>
+                <td>${transaction.status}</td>
+                <td><button class="print-btn" onclick="printFile('${transaction.filename}')">Print</button></td>
+              `;
+              transactionList.appendChild(row);
+            });
+          })
+          .catch((error) => console.error("Error fetching data:", error));
+      }
+
+      function printFile(filename) {
+        alert("Printing file: " + filename);
+      }
+
+      setInterval(fetchData, 5000);
       fetchData();
     </script>
   </body>

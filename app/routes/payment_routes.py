@@ -28,10 +28,10 @@ def summary():
     payment_ss = request.files["file"]
     utr_id = verify_payment(payment_ss)
     transaction_collection = db.transactions
-    if not utr_id:
-        additional_data = {"utr_id": utr_id, "status":"unverified"}
+    if utr_id:
+        additional_data = {"utr_id": utr_id, "status":"verified"}
     else:
-        additional_data = {"utr_id": utr_id, "status": "completed"}
+        additional_data = {"utr_id": utr_id, "status": "unsuccessful"}
 
     update_query = {"_id": ObjectId(transaction_id)}
     update_data = {"$set": additional_data}

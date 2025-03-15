@@ -23,7 +23,7 @@ def dashboard():
 
     db = current_app.config["DB"]
     transaction_collection = db.transactions
-    completed_transactions = transaction_collection.find({"status": "completed"})
+    completed_transactions = transaction_collection.find({"status": "verified"})
     transaction_list = list(completed_transactions)
 
     return render_template("dashboard.html", transactions=transaction_list)
@@ -37,7 +37,7 @@ def polling():
     try:
         db = current_app.config["DB"]
         transaction_collection = db.transactions
-        completed_transactions = transaction_collection.find({"status": "completed"})
+        completed_transactions = transaction_collection.find({"status": "verified"})
         transaction_list = list(completed_transactions)
 
         # Serialize the data properly before sending as JSON
