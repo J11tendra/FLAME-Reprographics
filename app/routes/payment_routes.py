@@ -9,6 +9,7 @@ from flask import (
     url_for,
 )
 from app.utils.verify_payment_ss import verify_payment
+from app.utils import generate_receipt_no
 from bson.objectid import ObjectId
 
 payment_bp = Blueprint("payment", __name__)
@@ -38,5 +39,6 @@ def summary():
     transaction_collection.find_one_and_update(
         update_query, update_data, return_document=True
     )
-
-    return render_template("summary.html")
+    
+    receipt_no = generate_receipt_no()
+    return render_template("summary.html", receipt_no=receipt_no)

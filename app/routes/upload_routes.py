@@ -36,7 +36,7 @@ def upload_file():
         num_pages = len(pdf_doc)
         file_id = fs.put(file, filename=file.filename, content_type=file.content_type)
 
-        total_cost = calculate_cost(num_pages, print_type, color)
+        total_cost = calculate_cost(num_pages, color)
 
         transaction_data = {
             "file_id": file_id,

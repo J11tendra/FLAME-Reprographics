@@ -1,4 +1,4 @@
-def calculate_cost(num_pages, print_type, color):
+def calculate_cost(num_pages, color):
     cost_per_page = 2
 
     if color == "color":
