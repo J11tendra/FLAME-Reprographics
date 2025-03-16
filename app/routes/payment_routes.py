@@ -40,5 +40,21 @@ def summary():
         update_query, update_data, return_document=True
     )
     
-    receipt_no = generate_receipt_no()
-    return render_template("summary.html", receipt_no=receipt_no)
+    receipt_no = None
+    
+    transaction = transaction_collection.find_one({"_id": ObjectId(transaction_id)})
+
+    if transaction:
+        receipt_no = transaction.get("receipt_no")
+
+        # If receipt_no is missing, generate it and update the database
+        if receipt_no is None:
+            receipt_no = generate_receipt_no()
+            transaction_collection.update_one({"_id": ObjectId(transaction_id)}, {"$set": {"receipt_no": receipt_no}})
+
+            # Fetch transaction again to get the new receipt_no
+            transaction = transaction_collection.find_one({"_id": ObjectId(transaction_id)})
+            receipt_no = transaction.get("receipt_no")
+
+    
+    return render_template("summary.html", receipt_no=receipt_no if receipt_no else "N/A")

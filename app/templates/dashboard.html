@@ -259,6 +259,7 @@
         <table>
           <thead>
             <tr>
+              <th>Receipt No</th>
               <th>Name</th>
               <th>Email</th>
               <th>No. of Pages</th>
@@ -285,6 +286,7 @@
             transactions.forEach((transaction) => {
               let row = document.createElement("tr");
               row.innerHTML = `
+                <td>${transaction.receipt_no}</td>
                 <td>${transaction.name}</td>
                 <td>${transaction.email}</td>
                 <td>${transaction.numPages}</td>
