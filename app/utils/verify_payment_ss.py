@@ -177,7 +177,7 @@ def extract_time(text):
             extracted_time = extracted_time.replace(year=now.year, month=now.month, day=now.day)  # Adjust date
             
             # Check if within a 5-minute window
-            if timedelta(minutes=-5) <= now - extracted_time <= timedelta(minutes=5):
+            if timedelta(minutes=-15) <= now - extracted_time <= timedelta(minutes=15):
                 return extracted_time_str, True
         except ValueError:
             continue  # Ignore invalid time formats

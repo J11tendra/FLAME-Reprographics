@@ -94,6 +94,25 @@
         color: #fdb61b;
         border: 2px solid #fdb61b;
       }
+      .alert {
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 5px;
+        font-size: 16px;
+        /* font-weight: bold; */
+        text-align: center;
+        position: relative;
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .alert-danger {
+        background-color: #f8d7da; /* Light red */
+        color: #721c24; /* Dark red text */
+        border: 1px solid #f5c6cb;
+        box-shadow: 0 4px 8px rgba(255, 0, 0, 0.2);
+      }
+
     </style>
   </head>
   <body>
@@ -126,4 +145,15 @@
       </form>
     </div>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            let alert = document.querySelector(".alert-danger");
+            if (alert) {
+                alert.style.opacity = "0";
+                setTimeout(() => alert.style.display = "none", 500);
+            }
+        }, 2000);
+    });
+  </script>
 </html>
