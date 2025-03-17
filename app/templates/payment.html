@@ -116,6 +116,13 @@
           />
         </div>
         <button type="submit" class="submit-button">SUBMIT</button>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="alert alert-danger">
+              {{ messages[0] }}
+            </div>
+          {% endif %}
+        {% endwith %}
       </form>
     </div>
   </body>

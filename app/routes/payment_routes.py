@@ -1,4 +1,5 @@
 from flask import (
+    flash,
     Blueprint,
     request,
     render_template,
@@ -9,7 +10,7 @@ from flask import (
     url_for,
 )
 from app.utils.verify_payment_ss import verify_payment
-from app.utils import generate_receipt_no
+from app.utils import generate_receipt_no, calculate_cost, generate_qr_code
 from bson.objectid import ObjectId
 
 payment_bp = Blueprint("payment", __name__)
@@ -27,8 +28,19 @@ def summary():
     db = current_app.config["DB"]
 
     payment_ss = request.files["file"]
-    utr_id = verify_payment(payment_ss)
     transaction_collection = db.transactions
+    transaction = transaction_collection.find_one({"_id": ObjectId(transaction_id)})
+    utr_id, is_valid = verify_payment(payment_ss, expected_amount=transaction.get("totalCost", 0))
+    if not is_valid:
+        transaction_id = session["user"]["transaction_id"]
+        total_cost = transaction.get("totalCost")
+        flash("Payment verification failed. Please upload a valid payment screenshot.", "error")
+        # transaction_id = str(
+        #         transaction_data["_id"]
+        #     )  # Use the MongoDB transaction ID as the unique transaction ID
+        qr_img_io = generate_qr_code(total_cost, transaction_id)
+        return render_template( "payment.html", total_cost=total_cost, qr_code_img=qr_img_io)
+
     if utr_id:
         additional_data = {"utr_id": utr_id, "status":"verified"}
     else:
@@ -42,8 +54,6 @@ def summary():
     
     receipt_no = None
     
-    transaction = transaction_collection.find_one({"_id": ObjectId(transaction_id)})
-
     if transaction:
         receipt_no = transaction.get("receipt_no")
 

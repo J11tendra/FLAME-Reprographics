@@ -5,7 +5,7 @@ from urllib.parse import urlencode
 
 
 def generate_qr_code(total_cost, transaction_id):
-    payee_vpa = "choudharyjitendraz270-1@oksbi"
+    payee_vpa = "info.jiitendra@okhdfcbank"
     payee_name = "Jitendra Choudhary"
 
     payment_data = {
