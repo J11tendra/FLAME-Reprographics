@@ -40,7 +40,8 @@ def create_app():
         userinfo_endpoint="https://openidconnect.googleapis.com/v1/userinfo",
         jwks_uri="https://www.googleapis.com/oauth2/v3/certs",
         client_kwargs={
-            "scope": "openid email profile https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read"
+            # "scope": "openid email profile https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read"
+            "scope": "openid email profile"
         },
     )
 
