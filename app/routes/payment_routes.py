@@ -1,3 +1,4 @@
+from datetime import datetime, date
 from flask import (
     Blueprint,
     request,
@@ -7,7 +8,12 @@ from flask import (
     redirect,
     url_for,
 )
-from app.utils import calculate_cost, generate_qr_code, verify_payment, generate_receipt_no
+from app.utils import (
+    calculate_cost,
+    generate_qr_code,
+    verify_payment,
+    generate_receipt_no
+)
 from bson.objectid import ObjectId
 
 payment_bp = Blueprint("payment", __name__)
@@ -19,9 +25,36 @@ def summary():
     txn = db.transactions.find_one({"_id": txn_id})
 
     if request.method == "POST":
-        utr_id = verify_payment(request.files["file"])
+        utr_id, timestamp = verify_payment(request.files["file"])
+
+        valid = False
+        error_msg = None
 
         if not utr_id:
+            error_msg = "UTR ID not found in the uploaded screenshot."
+        elif not timestamp:
+            error_msg = "Timestamp not found in the uploaded screenshot."
+        else:
+            try:
+                date_formats = ["%d %b %Y", "%d %B %Y", "%d/%m/%Y", "%d-%m-%Y", "%d/%m/%y", "%d-%m-%y"]
+                txn_date = None
+                for fmt in date_formats:
+                    try:
+                        txn_date = datetime.strptime(timestamp.strip(), fmt).date()
+                        break
+                    except ValueError:
+                        continue
+
+                if not txn_date:
+                    error_msg = "Failed to parse the date from timestamp."
+                elif txn_date != date.today():
+                    error_msg = f"Payment date mismatch. Found: {txn_date.strftime('%d %b %Y')}, expected: {date.today().strftime('%d %b %Y')}."
+                else:
+                    valid = True
+            except Exception:
+                error_msg = "Unexpected error while parsing timestamp."
+
+        if not valid:
             num_pages  = txn["numPages"]
             print_type = txn["printType"]
             color      = txn["color"]
@@ -33,10 +66,10 @@ def summary():
                 "payment.html",
                 total_cost=total_cost,
                 qr_code_img=qr_img,
-                error="unverified"
+                error=error_msg or "Unverified payment. Please try again."
             )
 
-        update = {"$set": {"utr_id": utr_id, "status": "verified"}}
+        update = {"$set": {"utr_id": utr_id, "status": "verified", "timestamp": timestamp}}
         if not txn.get("receipt_no"):
             new_no = generate_receipt_no()
             update["$set"]["receipt_no"] = new_no
