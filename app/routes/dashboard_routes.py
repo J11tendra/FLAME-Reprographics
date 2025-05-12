@@ -40,7 +40,6 @@ def polling():
         completed_transactions = transaction_collection.find({"status": "completed"})
         transaction_list = list(completed_transactions)
 
-        # Serialize the data properly before sending as JSON
         transaction_list_json = dumps(transaction_list)
 
         return jsonify({"transactions": transaction_list_json})

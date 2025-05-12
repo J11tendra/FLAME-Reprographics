@@ -61,10 +61,9 @@ def upload_file():
             transaction_collection.insert_one(transaction_data)
             session["user"]["transaction_id"] = str(transaction_data["_id"])
 
-            # Generate the QR code
             transaction_id = str(
                 transaction_data["_id"]
-            )  # Use the MongoDB transaction ID as the unique transaction ID
+            ) 
         qr_img_io = generate_qr_code(total_cost, transaction_id)
 
         return render_template(

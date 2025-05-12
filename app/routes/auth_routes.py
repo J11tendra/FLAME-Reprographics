@@ -10,7 +10,6 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/login")
 def login():
     google = current_app.config["google"]
-    # generate the exact same redirect URI you registered in Google Console:
     redirect_uri = url_for("auth.callback", _external=True)
     return google.authorize_redirect(redirect_uri)
 
@@ -20,21 +19,17 @@ def callback():
     google = current_app.config["google"]
 
     try:
-        # exchange code for tokens
         token = google.authorize_access_token()
 
-        # fetch basic profile (name, email)
         resp = google.get("userinfo")
         resp.raise_for_status()
         user_info = resp.json()
 
-        # keep only name & email
         session["user"] = {
             "name":  user_info["name"],
             "email": user_info["email"]
         }
 
-        # persist to MongoDB
         users_collection = db.users
         users_collection.insert_one({
             "name":  user_info["name"],
@@ -44,9 +39,7 @@ def callback():
         return redirect(url_for("home"))
 
     except Exception as e:
-        # log full traceback to console
         logging.exception("OAuth callback failed")
-        # return the actual error message for quick debugging
         return f"Authentication failed: {e}", 500
 
 @auth_bp.route("/logout")
